@@ -170,7 +170,7 @@ Resources:
         ImageUri:
           Fn::Join:
             - ""
-            - - 366590864501.dkr.ecr.
+            - - 225989360749.dkr.ecr.
               - Ref: AWS::Region
               - "."
               - Ref: AWS::URLSuffix
