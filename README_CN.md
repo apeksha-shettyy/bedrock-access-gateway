@@ -103,7 +103,7 @@ OpenAI 的 API 或 SDK 无缝集成并试用 Amazon Bedrock 的模型,而无需�
 
 你只需要API Key和API Base URL。如果你没有设置自己的密钥,那么默认将使用API Key `bedrock`。
 
-现在,你可以尝试使用代理API了。假设你想测试Claude 3 Sonnet模型,那么使用"anthropic.claude-3-sonnet-20240229-v1:0"作为模型ID。
+现在,你可以尝试使用代理API了。假设你想测试Claude 3 Sonnet模型,那么使用"anthropic.claude-3-5-sonnet-20240620-v1:0"作为模型ID。
 
 - **API 使用示例**
 
@@ -120,7 +120,7 @@ curl $OPENAI_BASE_URL/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $OPENAI_API_KEY" \
   -d '{
-    "model": "anthropic.claude-3-sonnet-20240229-v1:0",
+    "model": "anthropic.claude-3-5-sonnet-20240620-v1:0",
     "messages": [
       {
         "role": "user",
@@ -137,7 +137,7 @@ from openai import OpenAI
 
 client = OpenAI()
 completion = client.chat.completions.create(
-    model="anthropic.claude-3-sonnet-20240229-v1:0",
+    model="anthropic.claude-3-5-sonnet-20240620-v1:0",
     messages=[{"role": "user", "content": "Hello!"}],
 )
 
@@ -163,7 +163,7 @@ from langchain.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 
 chat = ChatOpenAI(
-    model="anthropic.claude-3-sonnet-20240229-v1:0",
+    model="anthropic.claude-3-5-sonnet-20240620-v1:0",
     temperature=0,
     openai_api_key=os.environ['OPENAI_API_KEY'],
     openai_api_base=os.environ['OPENAI_BASE_URL'],

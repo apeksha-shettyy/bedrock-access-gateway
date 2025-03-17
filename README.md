@@ -123,7 +123,7 @@ curl $OPENAI_BASE_URL/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $OPENAI_API_KEY" \
   -d '{
-    "model": "anthropic.claude-3-sonnet-20240229-v1:0",
+    "model": "anthropic.claude-3-5-sonnet-20240620-v1:0",
     "messages": [
       {
         "role": "user",
@@ -140,7 +140,7 @@ from openai import OpenAI
 
 client = OpenAI()
 completion = client.chat.completions.create(
-    model="anthropic.claude-3-sonnet-20240229-v1:0",
+    model="anthropic.claude-3-5-sonnet-20240620-v1:0",
     messages=[{"role": "user", "content": "Hello!"}],
 )
 
@@ -166,7 +166,7 @@ from langchain.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 
 chat = ChatOpenAI(
-    model="anthropic.claude-3-sonnet-20240229-v1:0",
+    model="anthropic.claude-3-5-sonnet-20240620-v1:0",
     temperature=0,
     openai_api_key=os.environ['OPENAI_API_KEY'],
     openai_api_base=os.environ['OPENAI_BASE_URL'],

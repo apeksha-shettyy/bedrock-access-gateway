@@ -189,7 +189,7 @@ curl $OPENAI_BASE_URL/chat/completions \
 {
     "id": "msg_01BY3wcz41x7XrKhxY3VzWke",
     "created": 1712543069,
-    "model": "anthropic.claude-3-sonnet-20240229-v1:0",
+    "model": "anthropic.claude-3-5-sonnet-20240620-v1:0",
     "system_fingerprint": "fp",
     "choices": [
         {
@@ -281,7 +281,7 @@ curl $OPENAI_BASE_URL/chat/completions \
 {
     "id": "msg_01PjrKDWhYGsrTNdeqzWd6D9",
     "created": 1712543689,
-    "model": "anthropic.claude-3-sonnet-20240229-v1:0",
+    "model": "anthropic.claude-3-5-sonnet-20240620-v1:0",
     "system_fingerprint": "fp",
     "choices": [
         {

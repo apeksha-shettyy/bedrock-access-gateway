@@ -22,7 +22,7 @@ async def chat_completions(
             Body(
                 examples=[
                     {
-                        "model": "anthropic.claude-3-sonnet-20240229-v1:0",
+                        "model": "anthropic.claude-3-5-sonnet-20240620-v1:0",
                         "messages": [
                             {"role": "system", "content": "You are a helpful assistant."},
                             {"role": "user", "content": "Hello!"},
