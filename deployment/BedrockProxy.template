@@ -170,7 +170,7 @@ Resources:
         ImageUri:
           Fn::Join:
             - ""
-            - - 225989360749.dkr.ecr.
+            - - 366590864501.dkr.ecr.
               - Ref: AWS::Region
               - "."
               - Ref: AWS::URLSuffix
@@ -185,7 +185,7 @@ Resources:
             Ref: DefaultModelId
           DEFAULT_EMBEDDING_MODEL: cohere.embed-multilingual-v3
           ENABLE_CROSS_REGION_INFERENCE: "true"
-      MemorySize: 1024
+      MemorySize: 3008
       PackageType: Image
       Role:
         Fn::GetAtt:
@@ -210,6 +210,8 @@ Resources:
       LoadBalancerAttributes:
         - Key: deletion_protection.enabled
           Value: "false"
+        - Key: idle_timeout.timeout_seconds
+          Value: "300"  
       Scheme: internet-facing
       SecurityGroups:
         - Fn::GetAtt:
