@@ -163,12 +163,12 @@ class BedrockModel(BaseChatModel):
     def _invoke_bedrock(self, chat_request: ChatRequest, stream=False):
         """Common logic for invoke bedrock models"""
         if DEBUG:
-            logger.info("Raw request: " + chat_request.model_dump_json())
+            logger.debug("Raw request: " + chat_request.model_dump_json())
 
         # convert OpenAI chat request to Bedrock SDK request
         args = self._parse_request(chat_request)
         if DEBUG:
-            logger.info("Bedrock request: " + json.dumps(str(args)))
+            logger.debug("Bedrock request: " + json.dumps(str(args)))
 
         try:
             if stream:
@@ -203,7 +203,7 @@ class BedrockModel(BaseChatModel):
             output_tokens=output_tokens,
         )
         if DEBUG:
-            logger.info("Proxy response :" + chat_response.model_dump_json())
+            logger.debug("Proxy response :" + chat_response.model_dump_json())
         return chat_response
 
     def chat_stream(self, chat_request: ChatRequest) -> AsyncIterable[bytes]:
@@ -219,7 +219,7 @@ class BedrockModel(BaseChatModel):
             if not stream_response:
                 continue
             if DEBUG:
-                logger.info("Proxy response :" + stream_response.model_dump_json())
+                logger.debug("Proxy response :" + stream_response.model_dump_json())
             if stream_response.choices:
                 yield self.stream_response_to_bytes(stream_response)
             elif (
@@ -509,7 +509,7 @@ class BedrockModel(BaseChatModel):
         Ref: https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference.html#message-inference-examples
         """
         if DEBUG:
-            logger.info("Bedrock response chunk: " + str(chunk))
+            logger.debug("Bedrock response chunk: " + str(chunk))
 
         finish_reason = None
         message = None
@@ -712,8 +712,8 @@ class BedrockEmbeddingsModel(BaseEmbeddingsModel, ABC):
     def _invoke_model(self, args: dict, model_id: str):
         body = json.dumps(args)
         if DEBUG:
-            logger.info("Invoke Bedrock Model: " + model_id)
-            logger.info("Bedrock request body: " + body)
+            logger.debug("Invoke Bedrock Model: " + model_id)
+            logger.debug("Bedrock request body: " + body)
         try:
             return bedrock_runtime.invoke_model(
                 body=body,
@@ -754,7 +754,7 @@ class BedrockEmbeddingsModel(BaseEmbeddingsModel, ABC):
             ),
         )
         if DEBUG:
-            logger.info("Proxy response :" + response.model_dump_json())
+            logger.debug("Proxy response :" + response.model_dump_json())
         return response
 
 
@@ -795,7 +795,7 @@ class CohereEmbeddingsModel(BedrockEmbeddingsModel):
         )
         response_body = json.loads(response.get("body").read())
         if DEBUG:
-            logger.info("Bedrock response body: " + str(response_body))
+            logger.debug("Bedrock response body: " + str(response_body))
 
         return self._create_response(
             embeddings=response_body["embeddings"],
@@ -836,7 +836,7 @@ class TitanEmbeddingsModel(BedrockEmbeddingsModel):
         )
         response_body = json.loads(response.get("body").read())
         if DEBUG:
-            logger.info("Bedrock response body: " + str(response_body))
+            logger.debug("Bedrock response body: " + str(response_body))
 
         return self._create_response(
             embeddings=[response_body["embedding"]],
@@ -848,7 +848,7 @@ class TitanEmbeddingsModel(BedrockEmbeddingsModel):
 def get_embeddings_model(model_id: str) -> BedrockEmbeddingsModel:
     model_name = SUPPORTED_BEDROCK_EMBEDDING_MODELS.get(model_id, "")
     if DEBUG:
-        logger.info("model name is " + model_name)
+        logger.debug("model name is " + model_name)
     match model_name:
         case "Cohere Embed Multilingual" | "Cohere Embed English":
             return CohereEmbeddingsModel()
