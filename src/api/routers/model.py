@@ -1,3 +1,4 @@
+import logging
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Path
@@ -17,6 +18,7 @@ chat_model = BedrockModel()
 
 async def validate_model_id(model_id: str):
     if model_id not in chat_model.list_models():
+        logging.error("Unsupported model id " + model_id)
         raise HTTPException(status_code=500, detail="Unsupported Model Id")
 
 

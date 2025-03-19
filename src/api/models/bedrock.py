@@ -155,6 +155,7 @@ class BedrockModel(BaseChatModel):
             error = f"Unsupported model {chat_request.model}, please use models API to get a list of supported models"
 
         if error:
+            logger.error(error)
             raise HTTPException(
                 status_code=400,
                 detail=error,
@@ -164,6 +165,7 @@ class BedrockModel(BaseChatModel):
         """Common logic for invoke bedrock models"""
         if DEBUG:
             logger.debug("Raw request: " + chat_request.model_dump_json())
+            logger.flush()
 
         # convert OpenAI chat request to Bedrock SDK request
         args = self._parse_request(chat_request)
@@ -176,10 +178,10 @@ class BedrockModel(BaseChatModel):
             else:
                 response = bedrock_runtime.converse(**args)
         except bedrock_runtime.exceptions.ValidationException as e:
-            logger.error("Validation Error: " + str(e))
+            logger.error("Validation Error: bedrock model:" + str(e))
             raise HTTPException(status_code=400, detail=str(e))
         except Exception as e:
-            logger.error(e)
+            logger.error("bedrock model: Error: "+e)
             raise HTTPException(status_code=500, detail=str(e))
         return response
 
@@ -204,6 +206,7 @@ class BedrockModel(BaseChatModel):
         )
         if DEBUG:
             logger.debug("Proxy response :" + chat_response.model_dump_json())
+
         return chat_response
 
     def chat_stream(self, chat_request: ChatRequest) -> AsyncIterable[bytes]:

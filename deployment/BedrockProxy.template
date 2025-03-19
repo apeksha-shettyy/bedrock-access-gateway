@@ -164,21 +164,18 @@ Resources:
   ProxyApiHandlerEC15A492:
     Type: AWS::Lambda::Function
     Properties:
+      FunctionName: BedrockProxyApiHandler
+      Handler: bedrock-access-gateway.src.api.app.handler
       Architectures:
         - arm64
       Code:
-        ImageUri:
-          Fn::Join:
-            - ""
-            - - 366590864501.dkr.ecr.
-              - Ref: AWS::Region
-              - "."
-              - Ref: AWS::URLSuffix
-              - /bedrock-proxy-api:latest
-      Description: Bedrock Proxy API Handler
+        S3Bucket: bedrock-access-gateway-bckt
+        S3Key: bedrock-access-gateway.zip    
+      Runtime: python3.12   
+      Description: Bedrock Proxyy API Handler
       Environment:
         Variables:
-          DEBUG: "false"
+          DEBUG: "true"
           API_KEY_SECRET_ARN:
             Ref: ApiKeySecretArn
           DEFAULT_MODEL:
@@ -186,12 +183,12 @@ Resources:
           DEFAULT_EMBEDDING_MODEL: cohere.embed-multilingual-v3
           ENABLE_CROSS_REGION_INFERENCE: "true"
       MemorySize: 3008
-      PackageType: Image
+      PackageType: Zip
       Role:
         Fn::GetAtt:
           - ProxyApiHandlerServiceRoleBE71BFB1
           - Arn
-      Timeout: 600
+      Timeout: 900
     DependsOn:
       - ProxyApiHandlerServiceRoleDefaultPolicy86681202
       - ProxyApiHandlerServiceRoleBE71BFB1

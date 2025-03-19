@@ -47,6 +47,10 @@ class LoggingMiddleware(BaseHTTPMiddleware):
         logging.debug(
             f"{request.method} {request.url} - Status: {response.status_code} - Time: {process_time:.4f}s"
         )
+        logging.debug(
+            f" Status: {response.status_code} - Time: {process_time}"
+        )
+        logging.flush()
 
         return response
 
@@ -67,6 +71,8 @@ async def health():
 # Exception Handler for Validation Errors
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request, exc):
+    logging.error("Validation Error: app:" + str(exc))
+    logging.flush()
     return PlainTextResponse(str(exc), status_code=400)
 
 # AWS Lambda Handler
